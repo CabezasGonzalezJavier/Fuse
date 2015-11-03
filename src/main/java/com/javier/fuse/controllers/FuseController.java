@@ -25,7 +25,7 @@ public class FuseController implements FuseResponseHandler{
 
     @Override
     public void handlFuse(FuseClient fuseClient) {
-        Log.d("FuseController","FuseController");
+        mListener.onSuccess(fuseClient);
     }
 
     @Override

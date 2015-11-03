@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.javier.fuse.controllers.FuseController;
 import com.javier.fuse.controllers.FuseControllerFactory;
+import com.javier.fuse.modelclient.FuseClient;
 import com.javier.fuse.models.Fuse;
 import com.javier.fuse.webservices.FuseResponseListener;
 import com.squareup.picasso.Picasso;
@@ -29,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements TextView.OnEditor
         mImageView = (ImageView) findViewById(R.id.activity_main_image_view);
 
         editText.setOnEditorActionListener(this);
-        Picasso.with(this).load("http://i.imgur.com/DvpvklR.png").into(mImageView);
+        FuseControllerFactory.setResponseListerner(this);
+
     }
 
     @Override
@@ -40,8 +42,9 @@ public class MainActivity extends AppCompatActivity implements TextView.OnEditor
     }
 
     @Override
-    public void onSuccess(Fuse successResponse) {
-        Log.d("Main","fff");
+    public void onSuccess(FuseClient successResponse) {
+        Log.d("Main","onSuccess");
+        Picasso.with(this).load(successResponse.getLogo()).into(mImageView);
     }
 
     @Override
