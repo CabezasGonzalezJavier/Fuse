@@ -14,4 +14,6 @@ public class Constants {
     public static final String TYPE_STRING_PUT = "PUT";
     public static final String TYPE_STRING_POST = "POST";
     public static final String TYPE_STRING_DELETE = "DELETE";
+
+    public static final String URL = "https://fusion.fusion-universal.com/api/v1/company.json";
 }
