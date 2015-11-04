@@ -10,10 +10,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.javier.fuse.controllers.FuseController;
 import com.javier.fuse.controllers.FuseControllerFactory;
 import com.javier.fuse.modelclient.FuseClient;
+import com.javier.fuse.utils.Utils;
 import com.javier.fuse.webservices.FuseResponseListener;
 import com.squareup.picasso.Picasso;
 
@@ -38,19 +40,24 @@ public class MainActivity extends AppCompatActivity implements TextView.OnEditor
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        mFuseController = FuseControllerFactory.getsFuseController();
-        mFuseController.request(mEditText.getText().toString());
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if (Utils.isOnline(MainActivity.this)) {
+            mFuseController = FuseControllerFactory.getsFuseController();
+            mFuseController.request(mEditText.getText().toString());
+            View view = this.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                mEditText.setText("");
+            }
+        } else {
+            Toast.makeText(this, R.string.activity_main_check_your_connection, Toast.LENGTH_LONG).show();
         }
         return true;
     }
 
     @Override
     public void onSuccess(FuseClient successResponse) {
-        Log.d("Main","onSuccess");
+        Log.d("Main", "onSuccess");
         Picasso.with(this).load(successResponse.getLogo()).into(mImageView);
     }
 
@@ -61,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements TextView.OnEditor
             @Override
             public void run() {
                 mImageView.setImageResource(android.R.color.transparent);
+                Toast.makeText(MainActivity.this, R.string.activity_main_invalid_field, Toast.LENGTH_LONG).show();
 
             }
         });
