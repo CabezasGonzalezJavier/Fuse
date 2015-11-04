@@ -17,9 +17,9 @@ public class FuseController implements FuseResponseHandler{
         this.mListener = mListener;
     }
 
-    public void request() {
+    public void request(String string) {
         FuseServiceImpl receiver = new FuseServiceImpl();
-        receiver.getFuse(this);
+        receiver.getFuse(this, string);
 
     }
 
@@ -30,7 +30,7 @@ public class FuseController implements FuseResponseHandler{
 
     @Override
     public void sendResponseFail(String error) {
-
+        mListener.onError(error);
     }
 
 }

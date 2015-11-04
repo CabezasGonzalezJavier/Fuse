@@ -19,7 +19,7 @@ public class FuseServiceImpl implements FuseService {
     private CommandFactory mCommandFactory = new CommandFactory();
 
     @Override
-    public void getFuse(final FuseResponseHandler fuseResponseHandler) {
+    public void getFuse(final FuseResponseHandler fuseResponseHandler, String string) {
         ResponseHandler handler = new ResponseHandler() {
             @Override
             public void sendResponseSusccesful(String response) {
@@ -30,10 +30,10 @@ public class FuseServiceImpl implements FuseService {
 
             @Override
             public void sendResponseFail(String error) {
-
+                fuseResponseHandler.sendResponseFail(error);
             }
         };
-        mCommandFactory.createGetCommand(Constants.URL, handler).execute();
+        mCommandFactory.createGetCommand(getURL(string), handler).execute();
     }
 
     public FuseClient convertFuseResultToFuseClient(Fuse result) {
@@ -47,6 +47,14 @@ public class FuseServiceImpl implements FuseService {
         fuseClient.setSecureField(result.getPasswordChanging().getSecureField());
 
         return fuseClient;
+    }
+
+    public String getURL(String string) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(Constants.URL_BEFORE);
+        stringBuilder.append(string);
+        stringBuilder.append(Constants.URL_AFTER);
+        return stringBuilder.toString();
     }
 
 }

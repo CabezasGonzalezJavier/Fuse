@@ -16,4 +16,6 @@ public class Constants {
     public static final String TYPE_STRING_DELETE = "DELETE";
 
     public static final String URL = "https://fusion.fusion-universal.com/api/v1/company.json";
+    public static final String URL_BEFORE = "https://";
+    public static final String URL_AFTER = ".fusion-universal.com/api/v1/company.json";
 }

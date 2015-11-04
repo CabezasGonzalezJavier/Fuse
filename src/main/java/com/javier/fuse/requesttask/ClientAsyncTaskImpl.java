@@ -75,6 +75,7 @@ public class ClientAsyncTaskImpl extends AsyncTask<String, Void, Response> imple
             e.printStackTrace();
             responseJson = e.toString();
             responseModel.setInterneterror(true);
+            listener.onError(e.toString());
         }
 
         return responseModel;
@@ -84,7 +85,6 @@ public class ClientAsyncTaskImpl extends AsyncTask<String, Void, Response> imple
     protected void onPostExecute(Response response) {
         super.onPostExecute(response);
 
-        Log.v("onPostExecute", response.getContent().toString());
 
         if (response.isInterneterror()) {
 
